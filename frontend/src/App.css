@@ -1,0 +1,50 @@
+@import "tailwindcss";
+/* Custom Shadow */
+.customShadow {
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Scrollbar Hidden */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* User Table Styles */
+.userTable {
+  @apply bg-white;
+}
+.userTable th {
+  @apply border text-base font-medium;
+}
+.userTable td {
+  @apply border text-base text-center;
+}
+
+/* Body Background */
+body {
+  @apply bg-slate-300;
+}
+
+/* Gradient for AdminProductCard */
+.bgGradient {
+  background: linear-gradient(135deg, #3b82f6, #1e40af); /* Blue gradient */
+}
+
+@keyframes zoomIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.animate-zoomIn {
+  animation: zoomIn 0.3s ease-out forwards;
+}
+
+/* Hide both horizontal and vertical scrollbars */
+.no-scrollbar::-webkit-scrollbar {
+  display: none !important; /* Hide scrollbar for Chrome, Safari, Edge */
+}

@@ -1,0 +1,92 @@
+# 🔹 Node.js Backend
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Logs
+logs
+*.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+debug.log
+
+# Environment Variables
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Database Files
+*.sqlite
+*.sqlite3
+/data/db
+
+# Build files
+dist/
+build/
+coverage/
+
+# Temporary Files
+*.tmp
+*.swp
+*.swo
+*.swn
+
+# IDE / Editor files
+.vscode/
+.idea/
+*.iml
+
+# MacOS system files
+.DS_Store
+
+# Stripe-related files
+stripe.log
+
+# PM2 Logs
+pm2.log
+pm2.pid
+
+
+# 🔹 Frontend (React, Vue, Angular)
+
+# Dependencies
+frontend/node_modules/
+frontend/package-lock.json
+frontend/yarn.lock
+
+# Build output
+frontend/build/
+frontend/dist/
+
+# Static files
+frontend/public/*.map
+
+# Logs
+frontend/logs/
+frontend/npm-debug.log
+frontend/yarn-debug.log
+frontend/yarn-error.log
+frontend/debug.log
+
+# Cache & Temporary Files
+frontend/.cache/
+frontend/.temp/
+
+# IDE / Editor files
+frontend/.vscode/
+frontend/.idea/
+
+# MacOS system files
+frontend/.DS_Store
+
+# Environment Variables (Frontend)
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
