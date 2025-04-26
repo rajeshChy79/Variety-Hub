@@ -1,14 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import{loadStripe} from '@stripe/stripe-js'
 import SummaryApi from "../../../common";
 import Context from "../../context";
 import { formatPrice } from "../../helpers/displayCurrency";
 import { FaMinus, FaPlus, FaTrash } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 const Cart = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const context = useContext(Context);
+  const user = useSelector((state) => state?.user?.user);
   const loadingCart = new Array(context.countCartProduct).fill(null);
 
   const fetchData = async () => {
@@ -21,7 +22,7 @@ const Cart = () => {
       });
       if (!dataResponse.ok) throw new Error("Failed to fetch cart");
       const dataApi = await dataResponse.json();
-      console.log("Cart Fetch Response:", dataApi); // Debug response
+      //console.log("Cart Fetch Response:", dataApi); // Debug response
 
       if (dataApi.success) {
         setData(dataApi?.data || []);
@@ -111,46 +112,34 @@ const Cart = () => {
     }
   };
 
-const handlePayment = async () => {
-  console.log("key",import.meta.env.VITE_STRIPE_PUBLIC_KEY);
+  const handlePayment = async () => {
+    try {
+      const totalAmount = calculateTotal();
 
-  const stripePromise = await loadStripe(import.meta.env.VITE_STRIPE_PUBLIC_KEY);
-  console.log(stripePromise)
-  if (!stripePromise) {
-    console.error("Stripe failed to load.");
-    return;
-  }
+      const response = await fetch(SummaryApi.payment.url, {
+        method: SummaryApi.payment.method,
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({
+          cartItems: data,
+          totalAmount,
+          paymentMethod: "UPI",
+          userId: user._id, //  Send user ID
+          email: user.email, //  Send email
+        }),
+      });
 
-  console.log("Stripe initialized:", stripePromise);
+      const result = await response.json();
+      console.log("Payment Response:", result);
+      if (!result.success) throw new Error("Order creation failed");
 
-  let response = await fetch(SummaryApi.payment.url, {
-    method: SummaryApi.payment.method,
-    credentials: "include",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      cartItems: data,
-    }),
-  });
-
-  console.log("response",response);
-
-  const responseData = await response.json();
-  console.log("Payment API Response:", responseData);
-
-  if (responseData?.id) {
-    console.log("Redirecting to Stripe Checkout...");
-    const { error } = await stripePromise.redirectToCheckout({
-      sessionId: responseData.id,
-    });
-
-    if (error) {
-      console.error("Stripe Checkout Error:", error);
+      //  Redirect user to Razorpay payment page
+      window.location.href = result.paymentLink;
+    } catch (error) {
+      console.error("❌ Payment Error:", error);
+      alert("Payment failed. Please try again.");
     }
-  } else {
-    console.error("Payment session ID not received:", responseData);
-  }
-};
-
+  };
 
   const calculateTotal = () => {
     return data.reduce((total, product) => {
@@ -283,7 +272,10 @@ const handlePayment = async () => {
                     <span>Total</span>
                     <span>{formatPrice(calculateTotal())}</span>
                   </div>
-                  <button className="w-full mt-2 sm:mt-4 bg-[#1E88E5] text-[#EBF4F6] py-2 sm:py-3 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 font-medium text-sm sm:text-base hover:scale-105" onClick={handlePayment}>
+                  <button
+                    className="w-full mt-2 sm:mt-4 bg-[#1E88E5] text-[#EBF4F6] py-2 sm:py-3 rounded-lg shadow-md hover:bg-blue-700 transition-all duration-300 font-medium text-sm sm:text-base hover:scale-105"
+                    onClick={handlePayment}
+                  >
                     Proceed to Checkout
                   </button>
                 </div>

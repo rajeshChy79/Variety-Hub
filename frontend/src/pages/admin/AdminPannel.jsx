@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { FaRegUserCircle } from "react-icons/fa";
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import ROLE from '../../../common/role';
+import { logout } from '../../../store/userSlice'; // adjust path if needed
 
 const AdminPanel = () => {
   const user = useSelector((state) => state?.user?.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -14,11 +16,15 @@ const AdminPanel = () => {
     }
   }, [user, navigate]);
 
+  const handleLogout = () => {
+    dispatch(logout()); // clear user from redux
+    navigate('/'); // redirect to homepage after logout
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-[#EBF4F6]">
-      {/* Combined Scrollable Sidebar and Main Content */}
       <div className="flex flex-row w-full">
-        {/* Sidebar (Sticky, Scrolls with Content) */}
+        {/* Sidebar */}
         <aside className="bg-[#071952] text-[#EBF4F6] w-[350px] min-h-screen p-4 sm:p-6 shadow-lg sticky top-[100px] left-0 z-40 flex flex-col">
           <div className="h-auto flex flex-col items-center justify-center border-b border-[#EBF4F6] border-opacity-20 mb-4 pt-[40px] sm:mb-6 pb-4">
             <div className="relative">
@@ -43,10 +49,23 @@ const AdminPanel = () => {
             <Link to="all-products" className="block px-4 py-2 sm:py-3 rounded-lg bg-[#1E88E5] hover:bg-blue-700 text-[#EBF4F6] font-medium text-sm sm:text-base transition-colors duration-200 shadow-sm">
               All Products
             </Link>
+            <Link to="orders" className="block px-4 py-2 sm:py-3 rounded-lg bg-[#1E88E5] hover:bg-blue-700 text-[#EBF4F6] font-medium text-sm sm:text-base transition-colors duration-200 shadow-sm">
+              Orders
+            </Link>
+            <Link to="analytics" className="block px-4 py-2 sm:py-3 rounded-lg bg-[#1E88E5] hover:bg-blue-700 text-[#EBF4F6] font-medium text-sm sm:text-base transition-colors duration-200 shadow-sm">
+              Analytics
+            </Link>
+          {/* Logout Button */}
+          <button
+          onClick={handleLogout}
+          className="mt-6 px-4 py-2 sm:py-3 rounded-lg bg-red-600 hover:bg-red-700 text-[#EBF4F6] font-medium text-sm sm:text-base transition-colors duration-200 shadow-sm"
+        >
+          Logout
+        </button>
           </nav>
         </aside>
 
-        {/* Main Content (Scrollable, Structured) & Footer */}
+        {/* Main Content */}
         <div className="flex flex-col flex-grow w-full">
           <main className="p-4 sm:p-6 bg-white shadow-lg rounded-xl m-4 sm:m-6 flex-grow overflow-y-auto max-h-[calc(100vh-20px)] scrollbar-hide no-scrollbar">
             <div className="container mx-auto">

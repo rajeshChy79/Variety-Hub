@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import SummaryApi from '../../common';
-import DisplaySearchProduct from '../components/DisplaySearchProduct'; // ✅ Import Display Component
+import React, { useEffect, useState } from "react";
+import { useLocation } from "react-router-dom";
+import SummaryApi from "../../common";
+import DisplaySearchProduct from "../components/DisplaySearchProduct"; //  Import Display Component
 
 const SearchProduct = () => {
   const [data, setData] = useState([]);
@@ -24,13 +24,15 @@ const SearchProduct = () => {
   }, [query]);
 
   return (
-    <div className='container mx-auto p-4'>
+    <div className="container mx-auto p-4">
       <h2 className="text-2xl font-bold text-gray-800 py-4">Search Results</h2>
 
-      {loading && <p className='text-lg text-center'>Loading...</p>}
-      {!loading && data.length === 0 && <p className='text-lg bg-white p-4 text-center'>No Data Found</p>}
+      {loading && <p className="text-lg text-center">Loading...</p>}
+      {!loading && data.length === 0 && (
+        <p className="text-lg bg-white p-4 text-center">No Data Found</p>
+      )}
 
-      {/* ✅ Pass Data to DisplaySearchProduct */}
+      {/* Pass Data to DisplaySearchProduct */}
       <DisplaySearchProduct loading={loading} data={data} />
     </div>
   );

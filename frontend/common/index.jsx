@@ -82,6 +82,10 @@ const SummaryApi={
   payment:{
     url:`${backendDomain}/api/checkout`,
     method:"post"
+  },
+  order:{
+    url:`${backendDomain}/api/order`,
+    method:"get"
   }
 }
 

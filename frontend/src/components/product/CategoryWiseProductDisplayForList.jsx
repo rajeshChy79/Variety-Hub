@@ -15,8 +15,12 @@ const CategoryWiseProductList = ({ data = [], loading, heading }) => {
 
   return (
     <div className="container mx-auto p-4 sm:p-6 bg-white rounded-xl shadow-lg border border-[#071952] border-opacity-20">
-      {/* ✅ Display Heading Properly */}
-      {heading && <h2 className="text-2xl sm:text-3xl font-bold text-[#071952] mb-2 sm:mb-3 border-b border-[#071952] border-opacity-20 pb-2 sm:pb-3">{heading}</h2>}
+      {/*  Display Heading Properly */}
+      {heading && (
+        <h2 className="text-2xl sm:text-3xl font-bold text-[#071952] mb-2 sm:mb-3 border-b border-[#071952] border-opacity-20 pb-2 sm:pb-3">
+          {heading}
+        </h2>
+      )}
 
       {/* Loading State */}
       {loading ? (
@@ -28,12 +32,18 @@ const CategoryWiseProductList = ({ data = [], loading, heading }) => {
           {data.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
               {data.map((product, index) => (
-                <div key={index} className="bg-white bg-opacity-90 border border-[#071952] border-opacity-20 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col">
+                <div
+                  key={index}
+                  className="bg-white bg-opacity-90 border border-[#071952] border-opacity-20 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 flex flex-col"
+                >
                   {/* Product Image */}
                   <Link to={`/product/${product?._id}`}>
                     <div className="h-40 sm:h-48 flex justify-center items-center bg-[#EBF4F6] rounded-t-xl shadow-md">
                       <img
-                        src={product.productImage[0] || "https://via.placeholder.com/150"}
+                        src={
+                          product.productImage[0] ||
+                          "https://via.placeholder.com/150"
+                        }
                         alt={product.productName}
                         className="h-28 w-auto object-contain mix-blend-multiply transition-transform duration-300 hover:scale-105"
                       />
@@ -51,7 +61,8 @@ const CategoryWiseProductList = ({ data = [], loading, heading }) => {
 
                     {/* Price Section */}
                     <div className="mt-1 sm:mt-2">
-                      {product.sellingPrice && product.sellingPrice < product.price ? (
+                      {product.sellingPrice &&
+                      product.sellingPrice < product.price ? (
                         <>
                           <span className="text-lg font-bold text-[#1E88E5]">
                             {formatPrice(product.sellingPrice)}
