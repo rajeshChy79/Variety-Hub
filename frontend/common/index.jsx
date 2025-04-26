@@ -1,6 +1,6 @@
 import { Children } from "react"
 
-const backendDomain="http://localhost:8080"
+const backendDomain="https://variety-hub.onrender.com"
 
 const SummaryApi={
   SignUP:{
